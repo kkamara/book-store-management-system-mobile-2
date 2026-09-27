@@ -53,6 +53,11 @@ export default function SearchScreen() {
     void loadResults(1, { query: '', edition: '', category: '', orderById: 'desc' });
   }
 
+  function changeSort(value: string) {
+    setOrderById(value);
+    void loadResults(1, { query, edition, category, orderById: value });
+  }
+
   const selectedEdition = editions.find(item => item.filterKey === edition)?.name || 'Any edition';
   const selectedCategory = categories.find(item => item.name === category)?.name || 'Any category';
 
@@ -73,7 +78,7 @@ export default function SearchScreen() {
         </Menu>
       </View>
 
-      <SegmentedButtons value={orderById} onValueChange={setOrderById} buttons={[
+      <SegmentedButtons value={orderById} onValueChange={changeSort} buttons={[
         { value: 'desc', label: 'Newest first' },
         { value: 'asc', label: 'Oldest first' },
       ]} style={styles.sort} />
