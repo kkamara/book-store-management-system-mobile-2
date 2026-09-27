@@ -20,6 +20,7 @@ export default function TabLayout() {
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: palette.paper }}>
     <Tabs
+      backBehavior="history"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: palette.ink,
