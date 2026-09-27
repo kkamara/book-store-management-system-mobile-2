@@ -30,6 +30,7 @@ type Login = (loginCreds: LoginCredentials) => Promise<LoginResponse|CustomError
 
 type UserResponse = {
   id?: number;
+  name?: string;
   email?: string;
   firstName?: string;
   lastName?: string;
@@ -39,11 +40,7 @@ type UserResponse = {
 };
 
 type LoginResponse = {
-  data?: {
-    user?: {
-      token?: string;
-    } & UserResponse;
-  };
+  data?: UserResponse & { token?: string };
 };
 
 type ServerError = {
@@ -65,7 +62,7 @@ type RegisterCredentials = RegisterUserServiceParams;
 type Register = (registerCreds: RegisterCredentials) => Promise<RegisterResponse|CustomError>;
 
 type RegisterResponse = {
-  user?: UserResponse;
+  data?: UserResponse & { token?: string };
 };
 
 type UpdateAccountResponse = {

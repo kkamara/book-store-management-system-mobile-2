@@ -10,11 +10,10 @@ export const RegisterUserService = (
     await http.postData<RegisterResponse>(
       '/user/register',
       {
-        firstName: credentials.firstName,
-        lastName: credentials.lastName,
+        name: `${credentials.firstName} ${credentials.lastName}`.trim(),
         email: credentials.email,
         password: credentials.password,
-        passwordConfirmation: credentials.passwordConfirmation,
+        password_confirmation: credentials.passwordConfirmation,
       },
     )
       .then(async response => {
@@ -35,15 +34,13 @@ export const LoginUserService = (
         await storage.save({
           key: "user-token",
           data: {
-            token: response.data.data?.user?.token,
+            token: response.data.data?.token,
             user: {
-              id: response.data.data?.user?.id,
-              email: response.data.data?.user?.email,
-              firstName: response.data.data?.user?.firstName,
-              lastName: response.data.data?.user?.lastName,
-              avatarPath: response.data.data?.user?.avatarPath,
-              createdAt: response.data.data?.user?.createdAt,
-              updatedAt: response.data.data?.user?.updatedAt,
+              id: response.data.data?.id,
+              name: response.data.data?.name,
+              email: response.data.data?.email,
+              createdAt: response.data.data?.createdAt,
+              updatedAt: response.data.data?.updatedAt,
             },
           }
         });
@@ -67,7 +64,7 @@ export const LogoutUserService= (
     if (!res.token) {
       return resolve({ message: "Token was already removed." });
     }
-    await http.deleteData<LogoutResponse>('/user', "user-token")
+    await http.deleteData<LogoutResponse>('/user/logout', "user-token")
       .then(async response => {
         try {
           await storage.remove({
@@ -94,7 +91,7 @@ export const AuthoriseUserService = (): Promise<AuthoriseResponse> => {
   const http = new HttpService();
   
   return new Promise<AuthoriseResponse>(async (resolve, reject) => {
-    await http.getData<AuthoriseResponse>('/user/authorise', "user-token")
+    await http.getData<AuthoriseResponse>('/user/authorize', "user-token")
       .then(async response => {
         return resolve(response.data);
       })

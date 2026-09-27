@@ -1,12 +1,15 @@
 import { webAPI, } from '@/constants/Web';
 import storage from '@/storage';
 import axios, { AxiosResponse, } from 'axios';
+import { Platform } from 'react-native';
 
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 
 export default class HttpService
 {
-  _domain = webAPI;
+  _domain = Platform.OS === 'web' && webAPI
+    ? webAPI.replace('://10.0.2.2', '://localhost')
+    : webAPI || '';
   _url = `${this._domain}`;
   _timeout = 10000;
 

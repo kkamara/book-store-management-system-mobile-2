@@ -1,119 +1,67 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import {
-  ColorValue,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
-
-import Loading from "@/components/Loading";
-import { View } from "@/components/Themed";
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { useColorScheme } from '@/components/useColorScheme';
-import Colors from '@/constants/Colors';
+import { palette } from '@/components/store/StoreUI';
 import { useAccounts } from '@/providers/AccountsProvider';
-import { isCustomErrorResponse } from "@/typeHandlers";
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: ColorValue;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { isCustomErrorResponse } from '@/typeHandlers';
+import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
+import { useEffect } from 'react';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const theme = 'dark' === colorScheme ? 'dark' : 'light';
-
-  const {
-    logout,
-    isAuth,
-    setIsAuth,
-    authorise,
-  } = useAccounts();
-
-  const [loading, setLoading] = useState(false);
+  const { authorise, setIsAuth } = useAccounts();
 
   useEffect(() => {
-    async function getAuthStatus() {
-      setLoading(true);
-      try {
-        const authoriseRes = await authorise();
-        if (true === isCustomErrorResponse(authoriseRes)) {
-          await logout();
-          setIsAuth(false);
-        } else {
-          setIsAuth(true);
-        }
-      } finally {
-        setLoading(false);
-      }
-    }
-    getAuthStatus();
-  }, [isAuth]);
-
-  if (loading) {
-    return <View style={styles.container}>
-      <Loading/>
-    </View>;
-  }
+    let active = true;
+    void authorise().then(result => {
+      if (active) setIsAuth(!isCustomErrorResponse(result));
+    });
+    return () => { active = false; };
+  }, []);
 
   return (
     <Tabs
-      backBehavior="history"
       screenOptions={{
-        tabBarActiveTintColor: Colors[theme].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        headerShown: false,
+        tabBarActiveTintColor: palette.ink,
+        tabBarInactiveTintColor: palette.muted,
+        tabBarStyle: { backgroundColor: palette.white, borderTopColor: palette.line, height: 64, paddingTop: 6, paddingBottom: 8 },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[theme].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          title: 'Discover',
+          tabBarIcon: ({ color, size }) => <Ionicons name="sparkles-outline" color={color} size={size} />,
         }}
       />
       <Tabs.Screen
-        name="(auth)"
+        name="search"
         options={{
-          title: 'Sign In',
-          href: false === isAuth ? '/(tabs)/(auth)/authButtons' : null,
-          headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="sign-in" color={color} />,
+          title: 'Search',
+          tabBarIcon: ({ color, size }) => <Ionicons name="search-outline" color={color} size={size} />,
         }}
       />
       <Tabs.Screen
-        name="(user)"
+        name="cart"
         options={{
-          title: 'User',
-          href: true === isAuth ? '/(tabs)/(user)' : null,
-          headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          title: 'Cart',
+          tabBarIcon: ({ color, size }) => <Ionicons name="bag-outline" color={color} size={size} />,
         }}
       />
+      <Tabs.Screen
+        name="orders"
+        options={{
+          title: 'Orders',
+          tabBarIcon: ({ color, size }) => <Ionicons name="receipt-outline" color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="account"
+        options={{
+          title: 'Account',
+          tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen name="(auth)" options={{ href: null }} />
+      <Tabs.Screen name="(user)" options={{ href: null }} />
     </Tabs>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

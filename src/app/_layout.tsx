@@ -6,12 +6,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
+import { palette } from '@/components/store/StoreUI';
 import { useColorScheme } from '@/components/useColorScheme';
 import AccountsProvider from '@/providers/AccountsProvider';
+import { MD3LightTheme, PaperProvider } from 'react-native-paper';
 
 export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary
+    // Catch any errors thrown by the Layout component.
+    ErrorBoundary
 } from 'expo-router';
 
 export const unstable_settings = {
@@ -48,12 +50,28 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const paperTheme = {
+    ...MD3LightTheme,
+    colors: {
+      ...MD3LightTheme.colors,
+      primary: palette.ink,
+      secondary: palette.orange,
+      background: palette.paper,
+      surface: palette.white,
+      onSurface: palette.ink,
+    },
+  };
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <AccountsProvider>
-        <Stack>
+       <PaperProvider theme={paperTheme}>
+        <Stack screenOptions={{ headerTintColor: palette.ink, contentStyle: { backgroundColor: palette.paper } }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="book/[slug]" options={{ title: 'Book details' }} />
+          <Stack.Screen name="order/[referenceNumber]" options={{ title: 'Order details' }} />
+          <Stack.Screen name="login" options={{ title: 'Welcome back' }} />
+          <Stack.Screen name="register" options={{ title: 'Create account' }} />
           <Stack.Screen
             name="modal"
             options={{
@@ -62,6 +80,7 @@ function RootLayoutNav() {
             }}
           />
         </Stack>
+       </PaperProvider>
       </AccountsProvider>
     </ThemeProvider>
   );
