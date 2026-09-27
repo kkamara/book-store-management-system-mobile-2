@@ -65,7 +65,7 @@ export default function AccountScreen() {
 
   if (!isAuth) return <View style={styles.center}>
     <Avatar.Icon size={64} icon="account-outline" style={styles.avatar} color={palette.ink} />
-    <Text style={styles.title}>Your book nook.</Text>
+    <Text style={styles.title}>Your bookshelf.</Text>
     <Text style={styles.subtitle}>Sign in to manage your details, bag and orders.</Text>
     <Button mode="contained" buttonColor={palette.ink} onPress={() => router.push('/login')}>Sign in</Button>
     <Button textColor={palette.orange} onPress={() => router.push('/register')}>Create an account</Button>

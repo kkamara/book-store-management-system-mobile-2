@@ -1,16 +1,16 @@
+import {
+    AuthoriseUserService,
+    LoginUserService,
+    LogoutUserService,
+    RegisterUserService,
+} from '@/services/AuthService';
 import axios from 'axios';
 import {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useState,
+    PropsWithChildren,
+    createContext,
+    useContext,
+    useState,
 } from 'react';
-import {
-  AuthoriseUserService,
-  LoginUserService,
-  LogoutUserService,
-  RegisterUserService,
-} from '@/services/AuthService';
 
 type StorefrontContextValue = {
   loading: boolean;

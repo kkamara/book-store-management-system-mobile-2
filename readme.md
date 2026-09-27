@@ -1,4 +1,4 @@
-# The Book Nook
+# Book Store 2
 
 Mobile storefront for the [Book Store Management System](https://github.com/kkamara/book-store-management-system-2). Browse and search books, read reviews, manage a cart, view orders, and update your account.
 

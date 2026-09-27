@@ -30,7 +30,7 @@ export default function DiscoverScreen() {
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View style={styles.topline}>
         <View>
-          <Text style={styles.eyebrow}>THE BOOK NOOK</Text>
+          <Text style={styles.eyebrow}>BOOK STORE 2</Text>
           <Text style={styles.brand}>Good pages, good company.</Text>
         </View>
         <Button mode="contained-tonal" compact onPress={() => router.push({ pathname: '/(tabs)/search' } as never)} icon="magnify">

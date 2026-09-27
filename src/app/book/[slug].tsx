@@ -59,7 +59,7 @@ export default function BookDetailsScreen() {
           {book.jpgImageURL ? <Image source={{ uri: book.jpgImageURL }} style={styles.cover} resizeMode="contain" /> : <Ionicons name="book-outline" size={45} color={palette.leaf} />}
         </View>
         <View style={styles.details}>
-          <Text style={styles.eyebrow}>{book.publisher || 'THE BOOK NOOK'}</Text>
+          <Text style={styles.eyebrow}>{book.publisher || 'BOOK STORE 2'}</Text>
           <Text style={styles.title}>{book.name}</Text>
           <Text style={styles.author}>by {book.author || 'Unknown author'}</Text>
           {book.ratingAverage ? <View style={styles.rating}><Ionicons name="star" size={15} color={palette.orange} /><Text style={styles.ratingText}>{book.ratingAverage}</Text></View> : null}

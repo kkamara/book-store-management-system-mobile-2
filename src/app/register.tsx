@@ -26,7 +26,7 @@ export default function RegisterScreen() {
   return <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
       <View style={styles.brandMark}><Text style={styles.markText}>B</Text></View>
-      <Text style={styles.eyebrow}>JOIN THE BOOK NOOK</Text>
+      <Text style={styles.eyebrow}>JOIN BOOK STORE 2</Text>
       <Text style={styles.title}>Make room for stories.</Text>
       <Text style={styles.subtitle}>Create an account to keep your books and orders together.</Text>
       <View style={styles.form}>

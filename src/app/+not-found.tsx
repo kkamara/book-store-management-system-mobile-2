@@ -1,7 +1,7 @@
+import { palette } from '@/components/store/StoreUI';
 import { Link, Stack } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
-import { palette } from '@/components/store/StoreUI';
 
 export default function NotFoundScreen() {
   return (

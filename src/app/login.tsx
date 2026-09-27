@@ -23,7 +23,7 @@ export default function LoginScreen() {
   return <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
     <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
       <View style={styles.brandMark}><Text style={styles.markText}>B</Text></View>
-      <Text style={styles.eyebrow}>THE BOOK NOOK</Text>
+      <Text style={styles.eyebrow}>BOOK STORE 2</Text>
       <Text style={styles.title}>Welcome back.</Text>
       <Text style={styles.subtitle}>Your next favourite is only a few pages away.</Text>
       <View style={styles.form}>
