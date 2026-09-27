@@ -1,28 +1,39 @@
-# Book Store 2
+<img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-mobile-2.png?raw=true" alt="book-store-management-system-mobile-2.png" width="150px"/> <img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-mobile-2(1).png?raw=true" alt="book-store-management-system-mobile-2(1).png" width="150px"/> <img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-mobile-2(2).png?raw=true" alt="book-store-management-system-mobile-2(2).png" width="150px"/> <img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-mobile-2(3).png?raw=true" alt="book-store-management-system-mobile-2(3).png" width="150px"/> <img src="https://github.com/kkamara/useful/blob/main/book-store-management-system-mobile-2(4).png?raw=true" alt="book-store-management-system-mobile-2(4).png" width="150px"/>
 
-Mobile storefront for the [Book Store Management System](https://github.com/kkamara/book-store-management-system-2). Browse and search books, read reviews, manage a cart, view orders, and update your account.
+# Book Store Management System Mobile 2
 
-## Setup
+(26-Sep-2026) Mobile app for www.github.com/kkamara/book-store-management-system-2 .
 
-Install dependencies and create the local environment file:
+* [Installation](#installation)
 
-```powershell
-Copy-Item .env.example .env
+* [Usage](#usage)
+
+* [Extra Details](#extra-details)
+
+* [Contributing](#contributing)
+
+* [License](#license)
+
+## Installation
+
+* [NodeJS](https://nodejs.org/en)
+
+* [React Native Setup Virtual Mobile App](https://reactnative.dev/docs/environment-setup)
+
+```bash
+cp .env.example .env
 yarn install
 ```
 
-Set `EXPO_PUBLIC_WEB_API` to the Laravel mobile API base URL. The example uses `10.0.2.2` for the Android emulator; web requests automatically map that host to `localhost`.
-
-## Run
+## Usage
 
 ```bash
-yarn start
 yarn android
-yarn ios
-yarn web
 ```
 
-Checkout is not available until the backend provides an order-creation endpoint.
+## Extra Details
+
+This app was created with my template at www.github.com/kkamara/AuthenticationMobileApp .
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
