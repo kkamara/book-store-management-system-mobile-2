@@ -1,10 +1,10 @@
 import { palette } from '@/components/store/StoreUI';
 import { useAccounts } from '@/providers/StorefrontProvider';
 import { isCustomErrorResponse } from '@/typeHandlers';
-import { Link, useRouter } from 'expo-router';
+import { Link, Stack, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, IconButton, Text, TextInput } from 'react-native-paper';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -20,7 +20,15 @@ export default function LoginScreen() {
     else router.replace('/(tabs)');
   }
 
+  function goBack() {
+    if (router.canGoBack()) router.back();
+    else router.replace('/(tabs)');
+  }
+
   return <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <Stack.Screen options={{
+      headerLeft: () => <IconButton icon="arrow-left" accessibilityLabel="Go back" onPress={goBack} />,
+    }} />
     <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
       <View style={styles.brandMark}><Text style={styles.markText}>B</Text></View>
       <Text style={styles.eyebrow}>BOOK STORE 2</Text>
