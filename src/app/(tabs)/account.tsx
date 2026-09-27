@@ -1,5 +1,5 @@
 import { palette } from '@/components/store/StoreUI';
-import { useAccounts } from '@/providers/AccountsProvider';
+import { useAccounts } from '@/providers/StorefrontProvider';
 import { updateAccount } from '@/services/StoreService';
 import storage from '@/storage';
 import { isCustomErrorResponse } from '@/typeHandlers';

@@ -55,33 +55,6 @@ export default class HttpService
     );
   }
 
-  async postFormData<T = any, R = AxiosResponse<T>> (
-    path: Path,
-    formData: FormData,
-    tokenId: TokenID = ""
-  ): Promise<R> {
-    const headers: { [key: string]: any } = { 'Content-Type': 'multipart/form-data', };
-    if (tokenId.length) {
-      const tokenStorage = await storage
-        .load({
-          key: tokenId,
-          autoSync: true,
-          syncInBackground: false,
-        })
-        .then(res => res)
-        .catch((err: Error) => err);
-      if (tokenStorage && tokenStorage.token) {
-        headers.Authorization = 'Bearer ' + tokenStorage.token;
-      }
-    }
-
-    return axios.post<T, R>(
-      this.url+path,
-      formData,
-      { headers, timeout: this.timeout, },
-    );
-  }
-
   async getData<T = any, R = AxiosResponse<T>> (
     path: Path,
     tokenId: TokenID = "",

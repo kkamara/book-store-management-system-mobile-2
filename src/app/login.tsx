@@ -1,5 +1,5 @@
 import { palette } from '@/components/store/StoreUI';
-import { useAccounts } from '@/providers/AccountsProvider';
+import { useAccounts } from '@/providers/StorefrontProvider';
 import { isCustomErrorResponse } from '@/typeHandlers';
 import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';

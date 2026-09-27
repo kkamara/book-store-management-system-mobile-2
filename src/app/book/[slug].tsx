@@ -1,5 +1,5 @@
 import { ErrorState, LoadingState, palette } from '@/components/store/StoreUI';
-import { useAccounts } from '@/providers/AccountsProvider';
+import { useAccounts } from '@/providers/StorefrontProvider';
 import { Book, Page, Review, addToCart, getBook, getReviews } from '@/services/StoreService';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';

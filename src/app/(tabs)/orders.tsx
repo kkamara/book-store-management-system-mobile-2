@@ -1,5 +1,5 @@
 import { EmptyState, ErrorState, LoadingState, palette } from '@/components/store/StoreUI';
-import { useAccounts } from '@/providers/AccountsProvider';
+import { useAccounts } from '@/providers/StorefrontProvider';
 import { getOrders, Order, Page } from '@/services/StoreService';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';

@@ -21,7 +21,6 @@ type RequestOptions = {
   method: string;
   headers: { [key: string]: any };
   data?: Item;
-  Authorization?: string;
 };
 
 type LoginCredentials = LoginUserServiceParams;
@@ -32,9 +31,6 @@ type UserResponse = {
   id?: number;
   name?: string;
   email?: string;
-  firstName?: string;
-  lastName?: string;
-  avatarPath?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -65,28 +61,10 @@ type RegisterResponse = {
   data?: UserResponse & { token?: string };
 };
 
-type UpdateAccountResponse = {
-  data?: UserResponse;
-};
-
-type UpdateAccount = (updateCreds: UpdateAccountCredentials) => Promise<UpdateAccountResponse|CustomError>;
-
-type UpdateAccountCredentials = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  passwordConfirmation: string;
-};
-
 type StorageResponse = {
   token?: string;
   user?: UserResponse;
 };
-
-type Loading = boolean;
-
-type ErrorType = string|null;
 
 type Authorise = () => Promise<AuthoriseResponse|CustomError>;
 
@@ -94,22 +72,3 @@ type AuthoriseResponse = {
   data?: UserResponse;
 };
 
-type Authenticated = boolean;
-
-type AvatarFile = {
-  uri: string;
-  type: string;
-  fileName: string;
-};
-
-type UploadAvatar = (avatar: AvatarFile) => Promise<UploadAvatarResponse|CustomError>;
-
-type UploadAvatarResponse = {
-  data?: UserResponse;
-};
-
-type RemoveAvatar = () => Promise<RemoveAvatarResponse|CustomError>;
-
-type RemoveAvatarResponse = {
-  data?: UserResponse;
-};

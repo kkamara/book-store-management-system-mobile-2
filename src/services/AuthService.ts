@@ -50,41 +50,17 @@ export const LoginUserService = (
   });
 };
 
-export const LogoutUserService= (
-): Promise<LogoutResponse|Boolean> => {
+export const LogoutUserService = async (): Promise<LogoutResponse> => {
   const http = new HttpService();
 
-  return new Promise<LogoutResponse|Boolean>(async (resolve, reject) => {
-    let res = null;
-    try {
-      res = await storage.load({ key: "user-token" });
-    } catch (err) {
-      return resolve({ message: "User data was already removed." });
-    }
-    if (!res.token) {
-      return resolve({ message: "Token was already removed." });
-    }
-    await http.deleteData<LogoutResponse>('/user/logout', "user-token")
-      .then(async response => {
-        try {
-          await storage.remove({
-            key: "user-token",
-          });
-        } catch (err) {
-          return reject(err);
-        }
-        return resolve(response.data);
-      })
-      .catch(async (err: Error) => {
-        try {
-          await storage.remove({
-            key: "user-token",
-          });
-        } catch (err) {
-          return reject(err);
-        }
-    });
-  });
+  try {
+    const stored = await storage.load<StorageResponse>({ key: 'user-token' });
+    if (!stored.token) return { message: 'Success' };
+    const response = await http.deleteData<LogoutResponse>('/user/logout', 'user-token');
+    return response.data;
+  } finally {
+    await storage.remove({ key: 'user-token' });
+  }
 };
 
 export const AuthoriseUserService = (): Promise<AuthoriseResponse> => {
@@ -92,43 +68,6 @@ export const AuthoriseUserService = (): Promise<AuthoriseResponse> => {
   
   return new Promise<AuthoriseResponse>(async (resolve, reject) => {
     await http.getData<AuthoriseResponse>('/user/authorize', "user-token")
-      .then(async response => {
-        return resolve(response.data);
-      })
-      .catch((err: Error) => reject(err));
-  });
-};
-
-export const UploadAvatarService = (
-  avatar: AvatarFile,
-): Promise<UploadAvatarResponse> => {
-  const http = new HttpService();
-  const formData = new FormData();
-  // Laravel's PUT route cannot parse multipart bodies, so spoof the method via POST
-  formData.append("_method", "PUT");
-  formData.append("avatar", {
-    uri: avatar.uri,
-    type: avatar.type,
-    name: avatar.fileName,
-  } as any);
-
-  return new Promise<UploadAvatarResponse>(async (resolve, reject) => {
-    await http.postFormData<UploadAvatarResponse>('/user/avatar', formData, "user-token")
-      .then(async response => {
-        return resolve(response.data);
-      })
-      .catch((err: Error) => reject(err));
-  });
-};
-
-export const RemoveAvatarService = (): Promise<RemoveAvatarResponse> => {
-  const http = new HttpService();
-
-  return new Promise<RemoveAvatarResponse>(async (resolve, reject) => {
-    await http.deleteData<RemoveAvatarResponse>(
-      '/user/avatar',
-      "user-token",
-    )
       .then(async response => {
         return resolve(response.data);
       })

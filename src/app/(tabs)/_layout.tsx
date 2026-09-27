@@ -1,5 +1,5 @@
 import { palette } from '@/components/store/StoreUI';
-import { useAccounts } from '@/providers/AccountsProvider';
+import { useAccounts } from '@/providers/StorefrontProvider';
 import { isCustomErrorResponse } from '@/typeHandlers';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
@@ -60,8 +60,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => <Ionicons name="person-circle-outline" color={color} size={size} />,
         }}
       />
-      <Tabs.Screen name="(auth)" options={{ href: null }} />
-      <Tabs.Screen name="(user)" options={{ href: null }} />
     </Tabs>
   );
 }
