@@ -64,7 +64,7 @@ export default function BookDetailsScreen() {
           <Text style={styles.author}>by {book.author || 'Unknown author'}</Text>
           {book.ratingAverage ? <View style={styles.rating}><Ionicons name="star" size={15} color={palette.orange} /><Text style={styles.ratingText}>{book.ratingAverage}</Text></View> : null}
           <Text style={styles.price}>£{book.cost}</Text>
-          <Button mode="contained" buttonColor={palette.ink} loading={busy} disabled={busy} icon="bag-plus-outline" onPress={() => void handleAddToCart()}>
+          <Button mode="contained" buttonColor={palette.ink} loading={busy} disabled={busy} icon="cart-plus" onPress={() => void handleAddToCart()}>
             {isAuth ? 'Add to bag' : 'Sign in to add'}
           </Button>
         </View>
