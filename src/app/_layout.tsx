@@ -7,6 +7,7 @@ import 'react-native-reanimated';
 import { palette } from '@/components/store/StoreUI';
 import StorefrontProvider from '@/providers/StorefrontProvider';
 import { MD3LightTheme, PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export { ErrorBoundary } from 'expo-router';
 
@@ -35,18 +36,20 @@ function RootLayoutNav() {
   };
 
   return (
-    <ThemeProvider value={DefaultTheme}>
-      <StorefrontProvider>
-       <PaperProvider theme={paperTheme}>
-        <Stack screenOptions={{ headerTintColor: palette.ink, contentStyle: { backgroundColor: palette.paper } }}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="book/[slug]" options={{ title: 'Book details' }} />
-          <Stack.Screen name="order/[referenceNumber]" options={{ title: 'Order details' }} />
-          <Stack.Screen name="login" options={{ title: 'Welcome back' }} />
-          <Stack.Screen name="register" options={{ title: 'Create account' }} />
-        </Stack>
-       </PaperProvider>
-      </StorefrontProvider>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider value={DefaultTheme}>
+        <StorefrontProvider>
+          <PaperProvider theme={paperTheme}>
+            <Stack screenOptions={{ headerTintColor: palette.ink, contentStyle: { backgroundColor: palette.paper } }}>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="book/[slug]" options={{ title: 'Book details' }} />
+              <Stack.Screen name="order/[referenceNumber]" options={{ title: 'Order details' }} />
+              <Stack.Screen name="login" options={{ title: 'Welcome back' }} />
+              <Stack.Screen name="register" options={{ title: 'Create account' }} />
+            </Stack>
+          </PaperProvider>
+        </StorefrontProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

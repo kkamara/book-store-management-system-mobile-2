@@ -4,6 +4,7 @@ import { isCustomErrorResponse } from '@/typeHandlers';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { useEffect } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
   const { authorise, setIsAuth } = useAccounts();
@@ -17,6 +18,7 @@ export default function TabLayout() {
   }, []);
 
   return (
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: palette.paper }}>
     <Tabs
       screenOptions={{
         headerShown: false,
@@ -61,5 +63,6 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+    </SafeAreaView>
   );
 }
