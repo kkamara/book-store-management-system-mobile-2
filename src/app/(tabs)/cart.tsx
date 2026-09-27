@@ -1,6 +1,7 @@
 import { EmptyState, ErrorState, LoadingState, palette } from '@/components/store/StoreUI';
 import { useAccounts } from '@/providers/StorefrontProvider';
 import { CartItem, addToCart, getCart, removeFromCart } from '@/services/StoreService';
+import getApiErrorMessage from '@/services/getErrorMessage';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -21,7 +22,7 @@ export default function CartScreen() {
     setLoading(true);
     setError('');
     try { setItems(await getCart()); }
-    catch (requestError) { setError(requestError instanceof Error ? requestError.message : 'Could not load your bag.'); }
+    catch (requestError) { setError(getApiErrorMessage(requestError, 'Could not load your bag.')); }
     finally { setLoading(false); }
   }
 
@@ -33,7 +34,7 @@ export default function CartScreen() {
   async function changeQuantity(bookId: number, direction: 'add' | 'remove') {
     setWorking(bookId);
     try { setItems(direction === 'add' ? await addToCart(bookId) : await removeFromCart(bookId)); }
-    catch (requestError) { setNotice(requestError instanceof Error ? requestError.message : 'Could not update your bag.'); }
+    catch (requestError) { setNotice(getApiErrorMessage(requestError, 'Could not update your bag.')); }
     finally { setWorking(null); }
   }
 

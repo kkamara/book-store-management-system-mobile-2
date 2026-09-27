@@ -4,7 +4,7 @@ import {
     LogoutUserService,
     RegisterUserService,
 } from '@/services/AuthService';
-import axios from 'axios';
+import getApiErrorMessage from '@/services/getErrorMessage';
 import {
     PropsWithChildren,
     createContext,
@@ -32,14 +32,6 @@ const StorefrontContext = createContext<StorefrontContextValue>({
   authorise: async () => ({ error: 'Authentication is unavailable.' }),
 });
 
-function getErrorMessage(error: unknown) {
-  if (axios.isAxiosError<ServerError>(error)) {
-    if (error.code === 'ERR_NETWORK') return 'Server unavailable.';
-    return error.response?.data?.message || 'The request could not be completed.';
-  }
-  return error instanceof Error ? error.message : 'Something unexpected happened.';
-}
-
 export default function StorefrontProvider({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
@@ -51,7 +43,7 @@ export default function StorefrontProvider({ children }: PropsWithChildren) {
       setIsAuth(true);
       return response;
     } catch (error) {
-      return { error: getErrorMessage(error) };
+      return { error: getApiErrorMessage(error, 'Unable to sign in.') };
     } finally {
       setLoading(false);
     }
@@ -62,7 +54,7 @@ export default function StorefrontProvider({ children }: PropsWithChildren) {
     try {
       return await RegisterUserService(credentials);
     } catch (error) {
-      return { error: getErrorMessage(error) };
+      return { error: getApiErrorMessage(error, 'Unable to create your account.') };
     } finally {
       setLoading(false);
     }
@@ -73,7 +65,7 @@ export default function StorefrontProvider({ children }: PropsWithChildren) {
     try {
       return await LogoutUserService();
     } catch (error) {
-      return { error: getErrorMessage(error) };
+      return { error: getApiErrorMessage(error, 'Unable to sign out.') };
     } finally {
       setIsAuth(false);
       setLoading(false);
@@ -85,7 +77,7 @@ export default function StorefrontProvider({ children }: PropsWithChildren) {
     try {
       return await AuthoriseUserService();
     } catch (error) {
-      return { error: getErrorMessage(error) };
+      return { error: getApiErrorMessage(error, 'Unable to verify your session.') };
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,6 @@
 import { BookTile, ErrorState, LoadingState, palette } from '@/components/store/StoreUI';
 import { Book, Category, Edition, Page, getCategories, getEditions, searchBooks } from '@/services/StoreService';
+import getApiErrorMessage from '@/services/getErrorMessage';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -31,7 +32,7 @@ export default function SearchScreen() {
     try {
       setBooks(await searchBooks({ ...params, page }));
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : 'Please try again.');
+      setError(getApiErrorMessage(requestError, 'Please try again.'));
     } finally {
       setLoading(false);
     }
@@ -41,7 +42,7 @@ export default function SearchScreen() {
     void Promise.all([getEditions(), getCategories()]).then(([editionItems, categoryItems]) => {
       setEditions(editionItems);
       setCategories(categoryItems);
-    }).catch(requestError => setError(requestError instanceof Error ? requestError.message : 'Please try again.'));
+    }).catch(requestError => setError(getApiErrorMessage(requestError, 'Could not load search filters.')));
     void loadResults();
   }, []);
 

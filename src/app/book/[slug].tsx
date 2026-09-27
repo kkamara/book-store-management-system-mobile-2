@@ -1,6 +1,7 @@
 import { ErrorState, LoadingState, palette } from '@/components/store/StoreUI';
 import { useAccounts } from '@/providers/StorefrontProvider';
 import { Book, Page, Review, addToCart, getBook, getReviews } from '@/services/StoreService';
+import getApiErrorMessage from '@/services/getErrorMessage';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -20,7 +21,11 @@ export default function BookDetailsScreen() {
 
   async function loadReviews(page = 1) {
     if (!slug) return;
-    try { setReviews(await getReviews(slug, page)); } catch { setReviews(null); }
+    try {
+      setReviews(await getReviews(slug, page));
+    } catch (requestError) {
+      setNotice(getApiErrorMessage(requestError, 'Could not load reviews.'));
+    }
   }
 
   useEffect(() => {
@@ -28,7 +33,7 @@ export default function BookDetailsScreen() {
     setLoading(true);
     Promise.all([getBook(slug), getReviews(slug)])
       .then(([bookDetails, reviewPage]) => { setBook(bookDetails); setReviews(reviewPage); })
-      .catch(requestError => setError(requestError instanceof Error ? requestError.message : 'This book could not be loaded.'))
+      .catch(requestError => setError(getApiErrorMessage(requestError, 'This book could not be loaded.')))
       .finally(() => setLoading(false));
   }, [slug]);
 
@@ -43,7 +48,7 @@ export default function BookDetailsScreen() {
       await addToCart(book.id);
       setNotice('Added to your bag');
     } catch (requestError) {
-      setNotice(requestError instanceof Error ? requestError.message : 'Could not add this book.');
+      setNotice(getApiErrorMessage(requestError, 'Could not add this book.'));
     } finally {
       setBusy(false);
     }

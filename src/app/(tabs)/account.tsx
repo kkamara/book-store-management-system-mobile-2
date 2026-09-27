@@ -1,6 +1,7 @@
 import { palette } from '@/components/store/StoreUI';
 import { useAccounts } from '@/providers/StorefrontProvider';
 import { updateAccount } from '@/services/StoreService';
+import getApiErrorMessage from '@/services/getErrorMessage';
 import storage from '@/storage';
 import { isCustomErrorResponse } from '@/typeHandlers';
 import { useRouter } from 'expo-router';
@@ -53,7 +54,7 @@ export default function AccountScreen() {
       setNewPasswordConfirmation('');
       setMessage('Your account has been updated.');
     } catch (requestError) {
-      setMessage(requestError instanceof Error ? requestError.message : 'Could not save your changes.');
+      setMessage(getApiErrorMessage(requestError, 'Could not save your changes.'));
     } finally { setBusy(false); }
   }
 

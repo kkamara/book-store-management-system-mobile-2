@@ -1,5 +1,6 @@
 import { ErrorState, LoadingState, palette } from '@/components/store/StoreUI';
 import { Book, Order, getOrder, getOrderBooks } from '@/services/StoreService';
+import getApiErrorMessage from '@/services/getErrorMessage';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, ScrollView, StyleSheet, View } from 'react-native';
@@ -18,7 +19,7 @@ export default function OrderDetailsScreen() {
     setLoading(true);
     Promise.all([getOrder(referenceNumber), getOrderBooks(referenceNumber)])
       .then(([orderDetails, orderItems]) => { setOrder(orderDetails); setBooks(orderItems); })
-      .catch(requestError => setError(requestError instanceof Error ? requestError.message : 'This order could not be loaded.'))
+      .catch(requestError => setError(getApiErrorMessage(requestError, 'This order could not be loaded.')))
       .finally(() => setLoading(false));
   }, [referenceNumber]);
 

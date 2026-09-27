@@ -1,5 +1,6 @@
 import { BookTile, ErrorState, LoadingState, palette } from '@/components/store/StoreUI';
 import { Book, getHome, Page } from '@/services/StoreService';
+import getApiErrorMessage from '@/services/getErrorMessage';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -18,7 +19,7 @@ export default function DiscoverScreen() {
     try {
       setPage(await getHome(pageNumber));
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : 'Please check your connection and try again.');
+      setError(getApiErrorMessage(requestError, 'Please check your connection and try again.'));
     } finally {
       setLoading(false);
     }

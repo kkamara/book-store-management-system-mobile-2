@@ -1,6 +1,7 @@
 import { EmptyState, ErrorState, LoadingState, palette } from '@/components/store/StoreUI';
 import { useAccounts } from '@/providers/StorefrontProvider';
 import { getOrders, Order, Page } from '@/services/StoreService';
+import getApiErrorMessage from '@/services/getErrorMessage';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
@@ -19,7 +20,7 @@ export default function OrdersScreen() {
     setLoading(true);
     setError('');
     try { setOrders(await getOrders(page, search)); }
-    catch (requestError) { setError(requestError instanceof Error ? requestError.message : 'Could not load your orders.'); }
+    catch (requestError) { setError(getApiErrorMessage(requestError, 'Could not load your orders.')); }
     finally { setLoading(false); }
   }
 
